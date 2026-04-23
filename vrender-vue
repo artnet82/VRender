@@ -1,0 +1,102 @@
+💚 2. `vrender-vue`
+
+```markdown
+# vrender-vue
+
+[![npm version](https://img.shields.io/npm/v/vrender-vue.svg)](https://www.npmjs.com/package/vrender-vue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Официальная интеграция [vrender.ru](https://vrender.ru) для Vue 3. Управление SEO-метатегами и автоматическое кэширование страниц.
+
+## 📦 Установка
+
+```bash
+npm install vrender-vue @unhead/vue
+```
+
+Требуется Vue 3 и @unhead/vue.
+
+🚀 Быстрый старт
+
+1. Подключите плагин
+
+```js
+// main.js
+import { createApp } from 'vue';
+import { createHead } from '@unhead/vue';
+import { VRenderPlugin } from 'vrender-vue';
+import App from './App.vue';
+
+const app = createApp(App);
+const head = createHead();
+
+app.use(head);
+app.use(VRenderPlugin, {
+  apiKey: 'ВАШ_API_КЛЮЧ',
+  appUrl: 'https://your-site.com'
+});
+
+app.mount('#app');
+```
+
+2. Используйте композабл useVRenderHead
+
+```vue
+<script setup>
+import { useVRenderHead } from 'vrender-vue';
+
+useVRenderHead({
+  title: 'Главная страница',
+  description: 'Описание',
+  canonical: 'https://your-site.com/',
+  'og:title': 'Главная',
+  'og:image': 'https://your-site.com/og-image.jpg'
+});
+</script>
+```
+
+🔧 API
+
+Плагин VRenderPlugin
+
+Параметр Тип Обязательный Описание
+apiKey string Да API-ключ
+appUrl string Да Базовый URL сайта
+
+useVRenderHead(config)
+
+Композабл принимает объект с теми же полями, что и в React-версии: title, description, canonical, og:*, twitter:*.
+
+📚 Пример с Vue Router
+
+```vue
+<script setup>
+import { useVRenderHead } from 'vrender-vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+useVRenderHead({
+  title: `Страница ${route.path}`,
+  canonical: `https://your-site.com${route.path}`
+});
+</script>
+```
+
+🛠️ Разработка
+
+```bash
+npm install
+npm run build
+npm publish --access public
+```
+
+📄 Лицензия
+
+MIT.
+
+🔗 Ссылки
+
+· Документация vrender.ru
+· Получить API-ключ
+· GitHub репозиторий
