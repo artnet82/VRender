@@ -1,0 +1,117 @@
+⚛️ 1. vrender-react
+
+```markdown
+# vrender-react
+
+[![npm version](https://img.shields.io/npm/v/vrender-react.svg)](https://www.npmjs.com/package/vrender-react)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Официальная React-интеграция для сервиса [vrender.ru](https://vrender.ru) — динамический рендеринг SPA для поисковых систем (Яндекс, Google).
+
+Библиотека позволяет легко управлять SEO-метаданными (title, description, Open Graph) и автоматически отправлять страницы на кэширование в vrender.ru, улучшая индексацию вашего React-приложения.
+
+## 📦 Установка
+
+```bash
+npm install vrender-react react-helmet-async
+```
+
+Требует react >= 16.8.0 и react-dom >= 16.8.0. react-helmet-async используется для управления <head>.
+
+🚀 Быстрый старт
+
+1. Оберните приложение в VRenderProvider
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { VRenderProvider } from 'vrender-react';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <VRenderProvider 
+    apiKey="ВАШ_API_КЛЮЧ" 
+    appUrl="https://your-site.com"
+  >
+    <App />
+  </VRenderProvider>
+);
+```
+
+2. Используйте хук useVRenderMeta на страницах
+
+```jsx
+import { useVRenderMeta } from 'vrender-react';
+
+function ProductPage({ product }) {
+  useVRenderMeta({
+    title: `${product.name} | Мой Магазин`,
+    description: product.description,
+    canonical: `https://your-site.com/products/${product.id}`,
+    'og:title': product.name,
+    'og:image': product.image,
+    'twitter:card': 'summary_large_image'
+  });
+
+  return <div>...</div>;
+}
+```
+
+🔧 API
+
+<VRenderProvider>
+
+Проп Тип Обязательный Описание
+apiKey string Да Ваш API-ключ
+appUrl string Да Базовый URL сайта
+children ReactNode Да Дочерние элементы
+
+useVRenderMeta(config)
+
+Параметр config — объект с полями (все опциональны):
+
+Поле Тип Описание
+title string Заголовок страницы
+description string Мета-описание
+canonical string Канонический URL
+og:* string Open Graph теги
+twitter:* string Twitter Card теги
+
+При изменении конфигурации мета-теги обновляются автоматически. При первом рендере страницы отправляется POST-запрос на https://api.vrender.ru/cache.
+
+📚 Пример с React Router
+
+```jsx
+import { Routes, Route } from 'react-router-dom';
+import { VRenderProvider } from 'vrender-react';
+
+function App() {
+  return (
+    <VRenderProvider apiKey="key" appUrl="https://site.com">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/products/:id" element={<ProductPage />} />
+      </Routes>
+    </VRenderProvider>
+  );
+}
+```
+
+🛠️ Разработка
+
+```bash
+npm install
+npm run build
+npm publish --access public
+```
+
+📄 Лицензия
+
+MIT.
+
+🔗 Ссылки
+
+· Документация vrender.ru
+· Личный кабинет
+· GitHub репозиторий
