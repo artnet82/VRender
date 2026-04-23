@@ -1,0 +1,65 @@
+ `vite-plugin-vrender`
+
+```markdown
+# vite-plugin-vrender
+
+[![npm version](https://img.shields.io/npm/v/vite-plugin-vrender.svg)](https://www.npmjs.com/package/vite-plugin-vrender)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Плагин для Vite, выполняющий пререндеринг (SSG) страниц через сервис [vrender.ru](https://vrender.ru). Генерирует статические HTML-файлы на этапе сборки.
+
+## 📦 Установка
+
+```bash
+npm install --save-dev vite-plugin-vrender
+```
+
+Требуется Vite 4 или 5.
+
+🚀 Быстрый старт
+
+```js
+// vite.config.js
+import vrender from 'vite-plugin-vrender';
+
+export default {
+  plugins: [
+    vrender({
+      apiKey: 'ВАШ_API_КЛЮЧ',
+      baseUrl: 'https://your-site.com',
+      routes: ['/', '/about', '/products/1']
+    })
+  ]
+};
+```
+
+После сборки в dist/prerendered появятся статические HTML-файлы.
+
+🔧 API
+
+Параметр Тип Описание
+apiKey string API-ключ
+baseUrl string Базовый URL сайта
+routes string[] \| (() => Promise<string[]>) Список маршрутов или асинхронная функция
+outputDir string Директория для сохранения (по умолчанию dist/prerendered)
+
+Пример с динамическими маршрутами
+
+```js
+routes: async () => {
+  const products = await fetch('https://api.site.com/products').then(r => r.json());
+  return products.map(p => `/products/${p.slug}`);
+}
+```
+
+🛠️ Разработка
+
+```bash
+npm install
+npm run build
+npm publish --access public
+```
+
+📄 Лицензия
+
+MIT.
