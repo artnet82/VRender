@@ -1,0 +1,72 @@
+ 4. `vrender-svelte`
+
+```markdown
+# vrender-svelte
+
+[![npm version](https://img.shields.io/npm/v/vrender-svelte.svg)](https://www.npmjs.com/package/vrender-svelte)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Официальная Svelte-интеграция для сервиса [vrender.ru](https://vrender.ru). Компонент `<VRenderMeta>` для управления SEO.
+
+## 📦 Установка
+
+```bash
+npm install vrender-svelte
+```
+
+Требуется Svelte 3 или 4.
+
+🚀 Быстрый старт
+
+Используйте компонент <VRenderMeta>
+
+```svelte
+<script>
+  import VRenderMeta from 'vrender-svelte';
+  export let data;
+</script>
+
+<VRenderMeta
+  apiKey="ВАШ_API_КЛЮЧ"
+  appUrl="https://your-site.com"
+  config={data?.seo || {}}
+/>
+
+<slot />
+```
+
+Передавайте SEO-данные со страниц (SvelteKit)
+
+```js
+// +page.js
+export function load({ params }) {
+  return {
+    seo: {
+      title: 'Страница',
+      description: 'Описание',
+      canonical: `https://site.com/${params.slug}`
+    }
+  };
+}
+```
+
+🔧 API
+
+Компонент <VRenderMeta>
+
+Проп Тип Обязательный Описание
+apiKey string Да API-ключ
+appUrl string Да Базовый URL
+config object Нет Объект с полями title, description, canonical, og:*, twitter:*
+
+🛠️ Разработка
+
+```bash
+npm install
+npm run build
+npm publish --access public
+```
+
+📄 Лицензия
+
+MIT.
