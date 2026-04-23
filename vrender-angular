@@ -1,0 +1,96 @@
+🅰️ 3. `vrender-angular`
+
+```markdown
+# vrender-angular
+
+[![npm version](https://img.shields.io/npm/v/vrender-angular.svg)](https://www.npmjs.com/package/vrender-angular)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Официальная Angular-интеграция для [vrender.ru](https://vrender.ru). Управление SEO и автоматическое кэширование страниц.
+
+## 📦 Установка
+
+```bash
+npm install vrender-angular
+```
+
+Совместимо с Angular 12+.
+
+🚀 Быстрый старт
+
+1. Импортируйте VRenderModule
+
+```typescript
+// app.module.ts
+import { VRenderModule } from 'vrender-angular';
+
+@NgModule({
+  imports: [
+    VRenderModule.forRoot({
+      apiKey: 'ВАШ_API_КЛЮЧ',
+      appUrl: 'https://your-site.com'
+    })
+  ]
+})
+export class AppModule { }
+```
+
+2. Используйте VRenderService
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { VRenderService } from 'vrender-angular';
+
+@Component({...})
+export class ProductPageComponent implements OnInit {
+  constructor(private vrender: VRenderService) {}
+
+  ngOnInit() {
+    this.vrender.setMeta({
+      title: 'Товар XYZ',
+      description: 'Лучший товар',
+      canonical: 'https://your-site.com/products/xyz',
+      'og:title': 'Товар XYZ'
+    });
+  }
+}
+```
+
+🔧 API
+
+VRenderModule.forRoot(config)
+
+Параметр Тип Описание
+apiKey string API-ключ
+appUrl string Базовый URL
+
+VRenderService
+
+· setMeta(config) — устанавливает мета-теги и отправляет данные на кэширование.
+
+VRenderGuard
+
+Позволяет задавать мета-данные прямо в конфигурации маршрутов.
+
+```typescript
+const routes = [
+  {
+    path: 'product/:id',
+    component: ProductPageComponent,
+    canActivate: [VRenderGuard],
+    data: { vrender: { title: 'Товар' } }
+  }
+];
+```
+
+🛠️ Разработка
+
+```bash
+npm install
+npm run build
+npm publish --access public
+```
+
+📄 Лицензия
+
+MIT.
